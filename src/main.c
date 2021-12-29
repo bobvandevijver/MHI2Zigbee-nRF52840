@@ -15,55 +15,53 @@
 #undef ZIGBEE_CHANNEL
 #define ZIGBEE_CHANNEL 11
 
-#define IEEE_CHANNEL_MASK                   (1l << ZIGBEE_CHANNEL)              /**< Scan only one, predefined channel to find the coordinator. */
-#define LIGHT_SWITCH_ENDPOINT               1                                   /**< Source endpoint used to control light bulb. */
-#define MATCH_DESC_REQ_START_DELAY          (2 * ZB_TIME_ONE_SECOND)            /**< Delay between the light switch startup and light bulb finding procedure. */
-#define MATCH_DESC_REQ_TIMEOUT              (5 * ZB_TIME_ONE_SECOND)            /**< Timeout for finding procedure. */
-#define MATCH_DESC_REQ_ROLE                 ZB_NWK_BROADCAST_RX_ON_WHEN_IDLE    /**< Find only non-sleepy device. */
-#define ERASE_PERSISTENT_CONFIG             ZB_FALSE                            /**< Do not erase NVRAM to save the network parameters after device reboot or power-off. NOTE: If this option is set to ZB_TRUE then do full device erase for all network devices before running other samples. */
-#define ZIGBEE_NETWORK_STATE_LED            BSP_BOARD_LED_2                     /**< LED indicating that light switch successfully joind Zigbee network. */
-#define BULB_FOUND_LED                      BSP_BOARD_LED_3                     /**< LED indicating that light witch found a light bulb to control. */
-#define LIGHT_SWITCH_BUTTON_ON              BSP_BOARD_BUTTON_0                  /**< Button ID used to switch on the light bulb. */
-#define LIGHT_SWITCH_BUTTON_OFF             BSP_BOARD_BUTTON_1                  /**< Button ID used to switch off the light bulb. */
-#define SLEEPY_ON_BUTTON                    BSP_BOARD_BUTTON_2                  /**< Button ID used to determine if we need the sleepy device behaviour (pressed means yes). */
+#define IEEE_CHANNEL_MASK (1l << ZIGBEE_CHANNEL)             /**< Scan only one, predefined channel to find the coordinator. */
+#define LIGHT_SWITCH_ENDPOINT 1                              /**< Source endpoint used to control light bulb. */
+#define MATCH_DESC_REQ_START_DELAY (2 * ZB_TIME_ONE_SECOND)  /**< Delay between the light switch startup and light bulb finding procedure. */
+#define MATCH_DESC_REQ_TIMEOUT (5 * ZB_TIME_ONE_SECOND)      /**< Timeout for finding procedure. */
+#define MATCH_DESC_REQ_ROLE ZB_NWK_BROADCAST_RX_ON_WHEN_IDLE /**< Find only non-sleepy device. */
+#define ERASE_PERSISTENT_CONFIG ZB_FALSE                     /**< Do not erase NVRAM to save the network parameters after device reboot or power-off. NOTE: If this option is set to ZB_TRUE then do full device erase for all network devices before running other samples. */
+#define ZIGBEE_NETWORK_STATE_LED BSP_BOARD_LED_2             /**< LED indicating that light switch successfully joind Zigbee network. */
+#define BULB_FOUND_LED BSP_BOARD_LED_3                       /**< LED indicating that light witch found a light bulb to control. */
+#define LIGHT_SWITCH_BUTTON_ON BSP_BOARD_BUTTON_0            /**< Button ID used to switch on the light bulb. */
+#define LIGHT_SWITCH_BUTTON_OFF BSP_BOARD_BUTTON_1           /**< Button ID used to switch off the light bulb. */
+#define SLEEPY_ON_BUTTON BSP_BOARD_BUTTON_2                  /**< Button ID used to determine if we need the sleepy device behaviour (pressed means yes). */
 
-#define LIGHT_SWITCH_DIMM_STEP              15                                  /**< Dim step size - increases/decreses current level (range 0x000 - 0xfe). */
-#define LIGHT_SWITCH_DIMM_TRANSACTION_TIME  2                                   /**< Transition time for a single step operation in 0.1 sec units. 0xFFFF - immediate change. */
+#define LIGHT_SWITCH_DIMM_STEP 15            /**< Dim step size - increases/decreses current level (range 0x000 - 0xfe). */
+#define LIGHT_SWITCH_DIMM_TRANSACTION_TIME 2 /**< Transition time for a single step operation in 0.1 sec units. 0xFFFF - immediate change. */
 
-#define LIGHT_SWITCH_BUTTON_THRESHOLD       ZB_TIME_ONE_SECOND                      /**< Number of beacon intervals the button should be pressed to dimm the light bulb. */
-#define LIGHT_SWITCH_BUTTON_SHORT_POLL_TMO  ZB_MILLISECONDS_TO_BEACON_INTERVAL(50)  /**< Delay between button state checks used in order to detect button long press. */
-#define LIGHT_SWITCH_BUTTON_LONG_POLL_TMO   ZB_MILLISECONDS_TO_BEACON_INTERVAL(300) /**< Time after which the button state is checked again to detect button hold - the dimm command is sent again. */
+#define LIGHT_SWITCH_BUTTON_THRESHOLD ZB_TIME_ONE_SECOND                          /**< Number of beacon intervals the button should be pressed to dimm the light bulb. */
+#define LIGHT_SWITCH_BUTTON_SHORT_POLL_TMO ZB_MILLISECONDS_TO_BEACON_INTERVAL(50) /**< Delay between button state checks used in order to detect button long press. */
+#define LIGHT_SWITCH_BUTTON_LONG_POLL_TMO ZB_MILLISECONDS_TO_BEACON_INTERVAL(300) /**< Time after which the button state is checked again to detect button hold - the dimm command is sent again. */
 
 #if !defined ZB_ED_ROLE
 #error Define ZB_ED_ROLE to compile light switch (End Device) source code.
 #endif
 
-
 typedef struct light_switch_bulb_params_s
 {
-  zb_uint8_t  endpoint;
-  zb_uint16_t short_addr;
+    zb_uint8_t endpoint;
+    zb_uint16_t short_addr;
 } light_switch_bulb_params_t;
 
 typedef struct light_switch_button_s
 {
-  zb_bool_t in_progress;
-  zb_time_t timestamp;
+    zb_bool_t in_progress;
+    zb_time_t timestamp;
 } light_switch_button_t;
 
 typedef struct light_switch_ctx_s
 {
-  light_switch_bulb_params_t bulb_params;
-  light_switch_button_t      button;
+    light_switch_bulb_params_t bulb_params;
+    light_switch_button_t button;
 } light_switch_ctx_t;
-
 
 static zb_void_t find_light_bulb_timeout(zb_bufid_t bufid);
 
 static light_switch_ctx_t m_device_ctx;
-static zb_uint8_t         m_attr_zcl_version   = ZB_ZCL_VERSION;
-static zb_uint8_t         m_attr_power_source  = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
-static zb_uint16_t        m_attr_identify_time = 0;
+static zb_uint8_t m_attr_zcl_version = ZB_ZCL_VERSION;
+static zb_uint8_t m_attr_power_source = ZB_ZCL_BASIC_POWER_SOURCE_UNKNOWN;
+static zb_uint16_t m_attr_identify_time = 0;
 
 /* Declare attribute list for Basic cluster. */
 ZB_ZCL_DECLARE_BASIC_ATTRIB_LIST(basic_attr_list, &m_attr_zcl_version, &m_attr_power_source);
@@ -178,10 +176,10 @@ static zb_void_t light_switch_send_step(zb_bufid_t bufid, zb_uint16_t is_step_up
  */
 static zb_void_t find_light_bulb_cb(zb_bufid_t bufid)
 {
-    zb_zdo_match_desc_resp_t   * p_resp = (zb_zdo_match_desc_resp_t *) zb_buf_begin(bufid);    // Get the beginning of the response
-    zb_apsde_data_indication_t * p_ind  = ZB_BUF_GET_PARAM(bufid, zb_apsde_data_indication_t); // Get the pointer to the parameters buffer, which stores APS layer response
-    zb_uint8_t                 * p_match_ep;
-    zb_ret_t                     zb_err_code;
+    zb_zdo_match_desc_resp_t *p_resp = (zb_zdo_match_desc_resp_t *)zb_buf_begin(bufid);      // Get the beginning of the response
+    zb_apsde_data_indication_t *p_ind = ZB_BUF_GET_PARAM(bufid, zb_apsde_data_indication_t); // Get the pointer to the parameters buffer, which stores APS layer response
+    zb_uint8_t *p_match_ep;
+    zb_ret_t zb_err_code;
 
     if ((p_resp->status == ZB_ZDP_STATUS_SUCCESS) && (p_resp->match_len > 0) && (m_device_ctx.bulb_params.short_addr == 0xFFFF))
     {
@@ -189,7 +187,7 @@ static zb_void_t find_light_bulb_cb(zb_bufid_t bufid)
         p_match_ep = (zb_uint8_t *)(p_resp + 1);
 
         /* We are searching for exact cluster, so only 1 EP may be found */
-        m_device_ctx.bulb_params.endpoint   = *p_match_ep;
+        m_device_ctx.bulb_params.endpoint = *p_match_ep;
         m_device_ctx.bulb_params.short_addr = p_ind->src_addr;
 
         NRF_LOG_INFO("Found bulb addr: %d ep: %d", m_device_ctx.bulb_params.short_addr, m_device_ctx.bulb_params.endpoint);
@@ -212,21 +210,21 @@ static zb_void_t find_light_bulb_cb(zb_bufid_t bufid)
  */
 static zb_void_t find_light_bulb(zb_bufid_t bufid)
 {
-    zb_zdo_match_desc_param_t * p_req;
+    zb_zdo_match_desc_param_t *p_req;
 
     /* Initialize pointers inside buffer and reserve space for zb_zdo_match_desc_param_t request */
     p_req = zb_buf_initial_alloc(bufid, sizeof(zb_zdo_match_desc_param_t) + (1) * sizeof(zb_uint16_t));
 
-    p_req->nwk_addr         = MATCH_DESC_REQ_ROLE;              // Send to devices specified by MATCH_DESC_REQ_ROLE
-    p_req->addr_of_interest = MATCH_DESC_REQ_ROLE;              // Get responses from devices specified by MATCH_DESC_REQ_ROLE
-    p_req->profile_id       = ZB_AF_HA_PROFILE_ID;              // Look for Home Automation profile clusters
+    p_req->nwk_addr = MATCH_DESC_REQ_ROLE;         // Send to devices specified by MATCH_DESC_REQ_ROLE
+    p_req->addr_of_interest = MATCH_DESC_REQ_ROLE; // Get responses from devices specified by MATCH_DESC_REQ_ROLE
+    p_req->profile_id = ZB_AF_HA_PROFILE_ID;       // Look for Home Automation profile clusters
 
     /* We are searching for 2 clusters: On/Off and Level Control Server */
-    p_req->num_in_clusters  = 2;
+    p_req->num_in_clusters = 2;
     p_req->num_out_clusters = 0;
     /*lint -save -e415 // Suppress warning 415 "likely access of out-of-bounds pointer" */
-    p_req->cluster_list[0]  = ZB_ZCL_CLUSTER_ID_ON_OFF;
-    p_req->cluster_list[1]  = ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL;
+    p_req->cluster_list[0] = ZB_ZCL_CLUSTER_ID_ON_OFF;
+    p_req->cluster_list[1] = ZB_ZCL_CLUSTER_ID_LEVEL_CONTROL;
     /*lint -restore */
     m_device_ctx.bulb_params.short_addr = 0xFFFF; // Set 0xFFFF to reset short address in order to parse only one response.
     UNUSED_RETURN_VALUE(zb_zdo_match_desc_req(bufid, find_light_bulb_cb));
@@ -352,19 +350,19 @@ static void buttons_handler(bsp_event_t evt)
         return;
     }
 
-    switch(evt)
+    switch (evt)
     {
-        case BSP_EVENT_KEY_0:
-            button = LIGHT_SWITCH_BUTTON_ON;
-            break;
+    case BSP_EVENT_KEY_0:
+        button = LIGHT_SWITCH_BUTTON_ON;
+        break;
 
-        case BSP_EVENT_KEY_1:
-            button = LIGHT_SWITCH_BUTTON_OFF;
-            break;
+    case BSP_EVENT_KEY_1:
+        button = LIGHT_SWITCH_BUTTON_OFF;
+        break;
 
-        default:
-            NRF_LOG_INFO("Unhandled BSP Event received: %d", evt);
-            return;
+    default:
+        NRF_LOG_INFO("Unhandled BSP Event received: %d", evt);
+        return;
     }
 
     if (!m_device_ctx.button.in_progress)
@@ -405,7 +403,7 @@ static zb_void_t sleepy_device_setup(void)
 {
     zb_set_rx_on_when_idle(bsp_button_is_pressed(SLEEPY_ON_BUTTON) ? ZB_FALSE : ZB_TRUE);
 
-#if ! defined DISABLE_POWER_CONSUMPTION_OPTIMIZATION
+#if !defined DISABLE_POWER_CONSUMPTION_OPTIMIZATION
     /* If sleepy behaviour is enabled, power off unused RAM to save maximum energy */
     if (ZB_PIBCACHE_RX_ON_WHEN_IDLE() == ZB_FALSE)
     {
@@ -420,39 +418,39 @@ static zb_void_t sleepy_device_setup(void)
  */
 void zboss_signal_handler(zb_bufid_t bufid)
 {
-    zb_zdo_app_signal_hdr_t      * p_sg_p = NULL;
-    zb_zdo_app_signal_type_t       sig    = zb_get_app_signal(bufid, &p_sg_p);
-    zb_ret_t                       status = ZB_GET_APP_SIGNAL_STATUS(bufid);
-    zb_ret_t                       zb_err_code;
+    zb_zdo_app_signal_hdr_t *p_sg_p = NULL;
+    zb_zdo_app_signal_type_t sig = zb_get_app_signal(bufid, &p_sg_p);
+    zb_ret_t status = ZB_GET_APP_SIGNAL_STATUS(bufid);
+    zb_ret_t zb_err_code;
 
     /* Update network status LED */
     zigbee_led_status_update(bufid, ZIGBEE_NETWORK_STATE_LED);
 
-    switch(sig)
+    switch (sig)
     {
-        case ZB_BDB_SIGNAL_DEVICE_REBOOT:
-            /* fall-through */
-        case ZB_BDB_SIGNAL_STEERING:
-            /* Call default signal handler. */
-            ZB_ERROR_CHECK(zigbee_default_signal_handler(bufid));
-            if (status == RET_OK)
+    case ZB_BDB_SIGNAL_DEVICE_REBOOT:
+        /* fall-through */
+    case ZB_BDB_SIGNAL_STEERING:
+        /* Call default signal handler. */
+        ZB_ERROR_CHECK(zigbee_default_signal_handler(bufid));
+        if (status == RET_OK)
+        {
+            /* Check the light device address */
+            if (m_device_ctx.bulb_params.short_addr == 0xFFFF)
             {
-                /* Check the light device address */
-                if (m_device_ctx.bulb_params.short_addr == 0xFFFF)
-                {
-                    zb_err_code = ZB_SCHEDULE_APP_ALARM(find_light_bulb, bufid, MATCH_DESC_REQ_START_DELAY);
-                    ZB_ERROR_CHECK(zb_err_code);
-                    zb_err_code = ZB_SCHEDULE_APP_ALARM(find_light_bulb_timeout, 0, MATCH_DESC_REQ_TIMEOUT);
-                    ZB_ERROR_CHECK(zb_err_code);
-                    bufid = 0; // Do not free buffer - it will be reused by find_light_bulb callback
-                }
+                zb_err_code = ZB_SCHEDULE_APP_ALARM(find_light_bulb, bufid, MATCH_DESC_REQ_START_DELAY);
+                ZB_ERROR_CHECK(zb_err_code);
+                zb_err_code = ZB_SCHEDULE_APP_ALARM(find_light_bulb_timeout, 0, MATCH_DESC_REQ_TIMEOUT);
+                ZB_ERROR_CHECK(zb_err_code);
+                bufid = 0; // Do not free buffer - it will be reused by find_light_bulb callback
             }
-            break;
+        }
+        break;
 
-        default:
-            /* Call default signal handler. */
-            ZB_ERROR_CHECK(zigbee_default_signal_handler(bufid));
-            break;
+    default:
+        /* Call default signal handler. */
+        ZB_ERROR_CHECK(zigbee_default_signal_handler(bufid));
+        break;
     }
 
     if (bufid)
@@ -465,7 +463,7 @@ void zboss_signal_handler(zb_bufid_t bufid)
  */
 int main(void)
 {
-    zb_ret_t       zb_err_code;
+    zb_ret_t zb_err_code;
     zb_ieee_addr_t ieee_addr;
 
     /* Initialize timers, loging system and GPIOs. */
@@ -474,7 +472,8 @@ int main(void)
     leds_buttons_init();
 
     /* Toggle the led to indicate startup */
-    for (int j = 0; j < 50; j++) {
+    for (int j = 0; j < 50; j++)
+    {
         bsp_board_led_invert(0);
         nrf_delay_ms(50);
     }
@@ -511,7 +510,7 @@ int main(void)
     zb_err_code = zboss_start_no_autostart();
     ZB_ERROR_CHECK(zb_err_code);
 
-    while(1)
+    while (1)
     {
         zboss_main_loop_iteration();
         UNUSED_RETURN_VALUE(NRF_LOG_PROCESS());
