@@ -22,4 +22,6 @@ In order to compile this library, you will need to have configured toolchain ava
 
 ## Build & Run
 
-In Visual Studio code, simply press `Ctrl + F5` to build the project and upload it to the board. Make sure to set the correct serial port in `.vscode/launch.json` though.
+1. Make sure to set the correct serial port in `.vscode/launch.json`. This is a `COM<number>`, you can see which ports are known by running `mode` in a command prompt.
+1. Make sure to put the nRF in bootloader mode first by pressing the reset button twice. The led will blink continuously and it should also register itself as a USB storage device with Windows.
+1. In Visual Studio code, press `Ctrl + F5` to build the project and upload it to the board.
