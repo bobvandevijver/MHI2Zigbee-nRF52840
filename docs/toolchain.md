@@ -12,6 +12,8 @@ This project has been build with version 4.1.0 and assumes the SDK is installed 
 
 ### Add board definition
 
+> This step is no longer necessary, as this repository bundles its own board definition based on the SparkFun one.
+
 You'll need to modify `components/boards/boards.h`, adding the following before `#elif defined(BOARD_CUSTOM)`:
 
 ```

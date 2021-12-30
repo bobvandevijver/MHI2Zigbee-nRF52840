@@ -16,6 +16,14 @@ This project uses the [Sparkfun Pro nRF52840 Mini](https://www.sparkfun.com/prod
 
 It is recommended to read the [Sparkfun Hookup Guide](https://learn.sparkfun.com/tutorials/sparkfun-pro-nrf52840-mini-hookup-guide) to learn more about the board and its capabilities.
 
+## Pin layout
+
+| Pin number | Function |
+|---|---|
+| 7 | Onboard LED, `BSP_BOARD_LED_0`, indicates whether the network has been joined |
+| 10 | Helper LED, `BSP_BOARD_LED_1`, used to indicate AC on/off state |
+| 17 | Log TX (see Logging) |
+
 ## Toolchain
 
 In order to compile this library, you will need to have configured toolchain available. See [docs/toolchain.md](tree/main/docs/toolchain.md) for all details.

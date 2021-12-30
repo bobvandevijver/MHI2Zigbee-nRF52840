@@ -1,5 +1,28 @@
 {
     "files.associations": {
-        "nrf_log_ctrl.h": "c"
+        "nrf_log_ctrl.h": "c",
+        "zboss_api.h": "c",
+        "zboss_api_zcl.h": "c",
+        "zb_address.h": "c",
+        "zb_zcl_fan_control.h": "c",
+        "zb_zcl_on_off.h": "c",
+        "zb_zcl_ias_wd.h": "c",
+        "zb_zcl_el_measurement.h": "c",
+        "zb_zcl_diagnostics.h": "c",
+        "zb_zcl_temp_measurement.h": "c",
+        "zboss_api_addons.h": "c",
+        "zboss_api_zcl_addons.h": "c",
+        "zb_zcl_on_off_addons.h": "c",
+        "zb_zcl_temp_measurement_addons.h": "c",
+        "zb_zcl_ota_upgrade_addons.h": "c",
+        "zb_zcl_scenes_addons.h": "c",
+        "zb_error_handler.h": "c",
+        "nrf_log.h": "c",
+        "nrf_log_default_backends.h": "c",
+        "nrf_delay.h": "c",
+        "zigbee.h": "c",
+        "bsp.h": "c",
+        "boards.h": "c",
+        "sparkfun_nrf52840_mini.h": "c"
     }
 }
