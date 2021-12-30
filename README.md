@@ -12,7 +12,7 @@ For the code the Nordic nRF SDK examples have been used extensively.
 
 ## Used board
 
-This project uses the [Sparkfun Pro nRF52840 Mini](https://www.sparkfun.com/products/15025) board as it provides an easy to use breakout board for the [Nordic nRF52840(https://www.nordicsemi.com/Products/nRF52840)] SOC. It comes preprogrammed with a bootloader, which eases developement.
+This project uses the [Sparkfun Pro nRF52840 Mini](https://www.sparkfun.com/products/15025) board as it provides an easy to use breakout board for the [Nordic nRF52840](https://www.nordicsemi.com/Products/nRF52840) SOC. It comes preprogrammed with a bootloader, which eases developement.
 
 It is recommended to read the [Sparkfun Hookup Guide](https://learn.sparkfun.com/tutorials/sparkfun-pro-nrf52840-mini-hookup-guide) to learn more about the board and its capabilities.
 
@@ -25,3 +25,7 @@ In order to compile this library, you will need to have configured toolchain ava
 1. Make sure to set the correct serial port in `.vscode/launch.json`. This is a `COM<number>`, you can see which ports are known by running `mode` in a command prompt.
 1. Make sure to put the nRF in bootloader mode first by pressing the reset button twice. The led will blink continuously and it should also register itself as a USB storage device with Windows.
 1. In Visual Studio code, press `Ctrl + F5` to build the project and upload it to the board.
+
+## Logging
+
+By default, this program uses pin 17 (TX) to log using the serial protocol, 115200 baud with 8 data bits, 1 stop bit, no parity and no flow control.
