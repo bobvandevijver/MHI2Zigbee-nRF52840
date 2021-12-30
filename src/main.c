@@ -13,7 +13,6 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-#define MHI_ZIGBEE_CHANNEL 11
 #define MHI_ENDPOINT 1                                                  /**< Device endpoint, used to receive controlling commands. */
 #define MHI_INIT_BASIC_APP_VERSION 01                                   /**< Version of the application software (1 byte). */
 #define MHI_INIT_BASIC_STACK_VERSION 10                                 /**< Version of the implementation of the Zigbee stack (1 byte). */
@@ -24,9 +23,8 @@
 #define MHI_INIT_BASIC_POWER_SOURCE ZB_ZCL_BASIC_POWER_SOURCE_DC_SOURCE /**< Type of power sources available for the device. For possible values see section 3.2.2.2.8 of ZCL specification. */
 #define MHI_INIT_BASIC_PH_ENV ZB_ZCL_BASIC_ENV_UNSPECIFIED              /**< Describes the type of physical environment. For possible values see section 3.2.2.2.10 of ZCL specification. */
 
-#define IEEE_CHANNEL_MASK (1l << MHI_ZIGBEE_CHANNEL) /**< Scan only one, predefined channel to find the coordinator. */
-#define ERASE_PERSISTENT_CONFIG ZB_FALSE             /**< Do not erase NVRAM to save the network parameters after device reboot or power-off. NOTE: If this option is set to ZB_TRUE then do full device erase for all network devices before running other samples. */
-// #define ZIGBEE_NETWORK_STATE_LED BSP_BOARD_LED_0             /**< LED indicating that light switch successfully joind Zigbee network. */
+#define ERASE_PERSISTENT_CONFIG ZB_FALSE /**< Do not erase NVRAM to save the network parameters after device reboot or power-off. NOTE: If this option is set to ZB_TRUE then do full device erase for all network devices before running other samples. */
+// #define ZIGBEE_NETWORK_STATE_LED BSP_BOARD_LED_0 /**< LED indicating that light switch successfully joind Zigbee network. */
 
 #if !defined ZB_ED_ROLE
 #error Define ZB_ED_ROLE to compile light switch (End Device) source code.
@@ -293,7 +291,7 @@ int main(void)
     zb_set_long_address(ieee_addr);
 
     /* Set static long IEEE address. */
-    zb_set_network_ed_role(IEEE_CHANNEL_MASK);
+    zb_set_network_ed_role(ZB_TRANSCEIVER_ALL_CHANNELS_MASK);
     zigbee_erase_persistent_storage(ERASE_PERSISTENT_CONFIG);
 
     zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
