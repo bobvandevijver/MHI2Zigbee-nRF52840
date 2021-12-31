@@ -23,6 +23,9 @@
         "zigbee.h": "c",
         "bsp.h": "c",
         "boards.h": "c",
-        "sparkfun_nrf52840_mini.h": "c"
+        "sparkfun_nrf52840_mini.h": "c",
+        "zb_mhi_ha_helpers.h": "c",
+        "pca10056.h": "c",
+        "nrf_drv_spis.h": "c"
     }
 }

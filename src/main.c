@@ -8,6 +8,11 @@
 
 /* SDK includes */
 #include "nrf_delay.h"
+
+/* SPI */
+#include "nrf_drv_spis.h"
+
+/* Logging */
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
@@ -56,6 +61,13 @@ ZB_HA_DECLARE_MHI_CLUSTER_LIST(
     temp_measurement_attr_list);
 ZB_HA_DECLARE_MHI_EP(mhi_ep, MHI_ENDPOINT, mhi_clusters);
 ZB_HA_DECLARE_MHI_CTX(mhi_ctx, mhi_ep);
+
+/* Declare SPI */
+#define SPIS_INSTANCE 1                                                  /* SPIS instance index */
+#define MHI_SPI_MSG_SIZE 20                                              /* SPI dataframe size */
+static const nrf_drv_spis_t spis = NRF_DRV_SPIS_INSTANCE(SPIS_INSTANCE); /* SPIS instance */
+static uint8_t m_tx_buf[20];                                             /* TX buffer */
+static uint8_t m_rx_buf[20];                                             /* RX buffer */
 
 /**
  * @brief Function for the Timer initialization.
@@ -282,12 +294,31 @@ static zb_void_t zcl_device_cb(zb_bufid_t bufid)
 }
 
 /**
+ * @brief SPIS user event handler.
+ *
+ * @param event
+ */
+void spis_event_handler(nrf_drv_spis_event_t event)
+{
+    if (event.evt_type == NRF_DRV_SPIS_XFER_DONE)
+    {
+        NRF_LOG_INFO("SPI data received!");
+        NRF_LOG_HEXDUMP_INFO(m_rx_buf, MHI_SPI_MSG_SIZE);
+    }
+}
+
+/**
  * @brief Main application function
  */
 int main(void)
 {
     zb_ret_t zb_err_code;
     zb_ieee_addr_t ieee_addr;
+
+    // Enable the constant latency sub power mode to minimize the time it takes
+    // for the SPIS peripheral to become active after the CSN line is asserted
+    // (when the CPU is in sleep mode).
+    NRF_POWER->TASKS_CONSTLAT = 1;
 
     /* Initialize timers, loging system and GPIOs. */
     timers_init();
@@ -297,8 +328,19 @@ int main(void)
     /* Log booting message */
     NRF_LOG_INFO("Booting...");
     NRF_LOG_FLUSH();
-
     bsp_board_leds_on();
+
+    // Setup SPI
+    nrf_drv_spis_config_t spis_config = NRF_DRV_SPIS_DEFAULT_CONFIG;
+    spis_config.miso_pin = APP_SPIS_MISO_PIN;
+    spis_config.mosi_pin = APP_SPIS_MOSI_PIN;
+    spis_config.sck_pin = APP_SPIS_SCK_PIN;
+    spis_config.mode = NRF_SPIS_MODE_3;
+    APP_ERROR_CHECK(nrf_drv_spis_init(&spis, &spis_config, spis_event_handler));
+    memset(m_tx_buf, 0, sizeof(m_tx_buf));
+    memset(m_rx_buf, 0, sizeof(m_tx_buf));
+
+    // Wait and disable LEDs
     nrf_delay_ms(500);
     bsp_board_leds_off();
 

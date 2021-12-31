@@ -24,6 +24,9 @@ It is recommended to read the [Sparkfun Hookup Guide](https://learn.sparkfun.com
 | 9 | Zigbee reset, `BSP_BOARD_BUTTON_1`, connect with ground during reset to clear Zigbee storage |
 | 10 | Helper LED, `BSP_BOARD_LED_1`, used to indicate AC on/off state |
 | 17 | Log TX (see Logging) |
+| 29 | SPI SCK |
+| 30 | SPI MOSI |
+| 31 | SPI MISO |
 
 ## Toolchain
 
