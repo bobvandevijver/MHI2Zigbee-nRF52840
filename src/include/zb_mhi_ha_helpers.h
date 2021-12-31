@@ -8,10 +8,10 @@
 
 #include "zboss_api.h"
 
-#define ZB_HA_MHI_IN_CLUSTER_NUM 5     /* MHI IN cluster number */
-#define ZB_HA_MHI_OUT_CLUSTER_NUM 0    /* MHI output OUT cluster number */
-#define ZB_HA_DEVICE_VER_HMI 0         /* MHI Output device version */
-#define ZB_ZCL_MHI_REPORT_ATTR_COUNT 1 /* Number of attributes mandatory for reporting */
+#define ZB_HA_MHI_IN_CLUSTER_NUM 5      /* MHI IN cluster number */
+#define ZB_HA_MHI_OUT_CLUSTER_NUM 0     /* MHI output OUT cluster number */
+#define ZB_HA_DEVICE_VER_HMI 0          /* MHI Output device version */
+#define ZB_ZCL_MHI_REPORT_ATTR_COUNT 10 /* Number of attributes mandatory for reporting */
 
 /**
  * @brief Declare cluster list for MHI device

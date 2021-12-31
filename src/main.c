@@ -95,7 +95,7 @@ static void on_off_set_value(zb_bool_t on)
         ZB_ZCL_CLUSTER_SERVER_ROLE,
         ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID,
         (zb_uint8_t *)&on,
-        ZB_FALSE);
+        ZB_TRUE);
 
     if (on)
     {
@@ -232,7 +232,7 @@ static void mhi_clusters_attr_init(void)
         ZB_ZCL_CLUSTER_SERVER_ROLE,
         ZB_ZCL_ATTR_ON_OFF_ON_OFF_ID,
         (zb_uint8_t *)&m_dev_ctx.on_off_attr.on_off,
-        ZB_FALSE);
+        ZB_TRUE);
 }
 
 /**
