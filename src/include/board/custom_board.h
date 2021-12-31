@@ -23,17 +23,18 @@ extern "C" {
 #define BSP_LED_0      7
 #define BSP_LED_1      7
 
-#define BUTTONS_NUMBER 1
+#define BUTTONS_NUMBER 2
 
 #define BUTTON_1       13
-#define BUTTON_2 
+#define BUTTON_2       9
 #define BUTTON_PULL    NRF_GPIO_PIN_PULLUP
 
 #define BUTTONS_ACTIVE_STATE 0
 
-#define BUTTONS_LIST { BUTTON_1 }
+#define BUTTONS_LIST { BUTTON_1, BUTTON_2 }
 
 #define BSP_BUTTON_0   BUTTON_1
+#define BSP_BUTTON_1   BUTTON_2
 
 #define RX_PIN_NUMBER  15
 #define TX_PIN_NUMBER  17

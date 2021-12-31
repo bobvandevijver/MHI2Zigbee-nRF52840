@@ -21,6 +21,7 @@ It is recommended to read the [Sparkfun Hookup Guide](https://learn.sparkfun.com
 | Pin number | Function |
 |---|---|
 | 7 | Onboard LED, `BSP_BOARD_LED_0`, indicates whether the network has been joined |
+| 9 | Zigbee reset, `BSP_BOARD_BUTTON_1`, connect with ground during reset to clear Zigbee storage |
 | 10 | Helper LED, `BSP_BOARD_LED_1`, used to indicate AC on/off state |
 | 17 | Log TX (see Logging) |
 
@@ -33,6 +34,12 @@ In order to compile this library, you will need to have configured toolchain ava
 1. Make sure to set the correct serial port in `.vscode/launch.json`. This is a `COM<number>`, you can see which ports are known by running `mode` in a command prompt.
 1. Make sure to put the nRF in bootloader mode first by pressing the reset button twice. The led will blink continuously and it should also register itself as a USB storage device with Windows.
 1. In Visual Studio code, press `Ctrl + F5` to build the project and upload it to the board.
+
+## Reset Zigbee parameters
+
+Connect pin 9 to ground and then use the reset button to reset the board. The Zigbee configuration will be cleared during boot.
+
+> Do not forget to disconnect pin 9 again, as otherwise your configuration will be cleared once again!
 
 ## Logging
 

@@ -129,7 +129,9 @@ static void buttons_handler(bsp_event_t event)
             on_off_set_value(ZB_TRUE);
         }
         break;
-
+    case BSP_EVENT_KEY_1:
+        NRF_LOG_INFO("Keep this button pressed while resetting the device to clear the Zigbee configuration!");
+        return;
     default:
         NRF_LOG_INFO("Unhandled BSP Event received: %d", event);
         return;
@@ -314,7 +316,15 @@ int main(void)
 
     /* Set static long IEEE address. */
     zb_set_network_ed_role(ZB_TRANSCEIVER_ALL_CHANNELS_MASK);
-    zigbee_erase_persistent_storage(ERASE_PERSISTENT_CONFIG);
+
+    if (bsp_button_is_pressed(BSP_BOARD_BUTTON_1))
+    {
+        NRF_LOG_INFO("Resetting ZIGBEE persistent storage...");
+        NRF_LOG_FLUSH();
+
+        /** Erase NVRAM to clear the network parameters */
+        zigbee_erase_persistent_storage(ZB_TRUE);
+    }
 
     zb_set_ed_timeout(ED_AGING_TIMEOUT_64MIN);
     zb_set_keepalive_timeout(ZB_MILLISECONDS_TO_BEACON_INTERVAL(3000));
