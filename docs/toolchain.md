@@ -6,7 +6,7 @@ This document is based on the [SparkFun Advanced Development With the nRF5 SDK](
 
 ## nRF SDK
 
-Install the [nRF SDK for Thread and Zigbee](https://www.nordicsemi.com/Products/Development-software/nrf5-sdk-for-thread-and-zigbee): simply download it from the URL and run the installer. 
+Extract the [nRF SDK for Thread and Zigbee](https://www.nordicsemi.com/Products/Development-software/nrf5-sdk-for-thread-and-zigbee): simply download it from the URL and extract it to a directory of your choice.
 
 This project has been build with version 4.1.0 and assumes the SDK is installed in `D:\nRF5\nRF5_SDK_for_Thread_and_Zigbee_v4.1.0_32ce5f8` (but this can be adjusted later on, see the bottom of this file).
 
