@@ -30,7 +30,7 @@ It is recommended to read the [Sparkfun Hookup Guide](https://learn.sparkfun.com
 
 ## Toolchain
 
-In order to compile this library, you will need to have configured toolchain available. See [docs/toolchain.md](blob/master/docs/toolchain.md) for all details.
+In order to compile this library, you will need to have configured toolchain available. See [docs/toolchain.md](docs/toolchain.md) for all details.
 
 ## Build & Run
 
